@@ -32,11 +32,6 @@ class qa_email_notifications_event {
                               $emails     = $this->combine_emails($emails);
 
                               for ($i = 0; $i < count($emails); $i++) {
-                                    //$bcclist = array();
-                                    //for ($j = 0; $j < 75 && $i < count($emails); $j++, $i++) {
-                                    //      $bcclist[] = $emails[$i]['email'];
-                                    //}
-                                    
                                     $this->category_email_notification_send_notification(null, $emails[$i]['email'], null, qa_lang('emails/q_posted_subject'), qa_lang('notify/q_posted_body'), 
                                         array(
                                         '^q_handle'  => isset($handle) ? $handle : qa_lang('main/anonymous'),
