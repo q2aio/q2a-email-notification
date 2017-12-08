@@ -32,12 +32,12 @@ class qa_email_notifications_event {
                               $emails     = $this->combine_emails($emails);
 
                               for ($i = 0; $i < count($emails); $i++) {
-                                    $bcclist = array();
-                                    for ($j = 0; $j < 75 && $i < count($emails); $j++, $i++) {
-                                          $bcclist[] = $emails[$i]['email'];
-                                    }
-
-                                    $this->category_email_notification_send_notification($bcclist, null, null, qa_lang('emails/q_posted_subject'), qa_lang('notify/q_posted_body'), 
+                                    //$bcclist = array();
+                                    //for ($j = 0; $j < 75 && $i < count($emails); $j++, $i++) {
+                                    //      $bcclist[] = $emails[$i]['email'];
+                                    //}
+                                    
+                                    $this->category_email_notification_send_notification(null, $emails[$i]['email'], null, qa_lang('emails/q_posted_subject'), qa_lang('notify/q_posted_body'), 
                                         array(
                                         '^q_handle'  => isset($handle) ? $handle : qa_lang('main/anonymous'),
                                         '^q_title'   => $params['title'], // don't censor title or content here since we want the admin to see bad words
@@ -142,46 +142,7 @@ class qa_email_notifications_event {
       }
 
       function category_email_send_email($params) {
-            if (qa_to_override(__FUNCTION__)) {
-                  $args = func_get_args();
-                  return qa_call_override(__FUNCTION__, $args);
-            }
-
-            require_once QA_INCLUDE_DIR . 'qa-class.phpmailer.php';
-
-            $mailer = new PHPMailer();
-            $mailer->CharSet = 'utf-8';
-
-            $mailer->From     = $params['fromemail'];
-            $mailer->Sender   = $params['fromemail'];
-            $mailer->FromName = $params['fromname'];
-            if (isset($params['toemail'])) {
-                  $mailer->AddAddress($params['toemail'], $params['toname']);
-            }
-            $mailer->Subject = $params['subject'];
-            $mailer->Body = $params['body'];
-            if (isset($params['bcclist'])) {
-                  foreach ($params['bcclist'] as $email) {
-                        $mailer->AddBCC($email);
-                  }
-            }
-
-            if ($params['html']) $mailer->IsHTML(true);
-
-            if (qa_opt('smtp_active')) {
-                  $mailer->IsSMTP();
-                  $mailer->Host = qa_opt('smtp_address');
-                  $mailer->Port = qa_opt('smtp_port');
-
-                  if (qa_opt('smtp_secure')) $mailer->SMTPSecure = qa_opt('smtp_secure');
-
-                  if (qa_opt('smtp_authenticate')) {
-                        $mailer->SMTPAuth = true;
-                        $mailer->Username = qa_opt('smtp_username');
-                        $mailer->Password = qa_opt('smtp_password');
-                  }
-            }
-            return $mailer->Send();
+            return qa_send_email($params);
       }
 
       public function qa_get($param, $name = '') {
