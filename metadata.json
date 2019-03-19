@@ -1,0 +1,11 @@
+{
+    "name": "Category/Tag Email Notification.",
+	"description": "Notifies a user when a new question is asked in his favorite tag or category. Forked from, https://github.com/amiyasahu/q2a-email-notification",
+	"version": "1.0.0",
+	"date": "2018-04-21",
+	"author": "Pubiclity Port",
+	"author_uri": "https://publicityport.com",
+	"plugin_url": "https://github.com/PublicityPort/q2a-email-notification",
+    "min_q2a": "1.8.0",
+    "load_order": "after_db_init"
+}
